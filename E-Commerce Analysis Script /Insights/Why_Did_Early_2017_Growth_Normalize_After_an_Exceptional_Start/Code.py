@@ -51,24 +51,23 @@ Previous_sales_MoM["Growth_Rate"] = np.where(
 m_Mom = Previous_sales_MoM["Growth_Rate"].median()
 MoM = Previous_sales_MoM[["Year","Month","Growth_Rate"]]
 
-# Baseline period: Jan-Mar 2017, i.e. before the Aprember event
+# Baseline period: March 2017 only, i.e. the single month immediately before April
 Period = order[(order["Year"] == 2017) & (order["Month"] == 3)].copy()
 
-# Sales per state during the baseline period, to see which states already led
-# before Aprember (for context/comparison with the contribution-to-change chart)
+# Sales per state in March, to see which states already led before April
+# (for context/comparison if a contribution-to-change breakdown is added later)
 Sales_per_state = Period.groupby("customer_state")["price"].sum().reset_index()
 Sales_per_state_10 = Sales_per_state.sort_values(by="price",ascending=False).head(10)
 
-# Units sold per category during the baseline period (same purpose as above)
+# Units sold per category in March (same purpose as above)
 Units_per_category = Period.groupby("product_category_name_english")["order_id"].count().reset_index()
 Units_per_category_15 = Units_per_category.sort_values(by="order_id",ascending=False).head(10)
 
-# Full 2017 data, used for the October-vs-Aprember comparison below
+# Target period: April 2017 only, used for the March-vs-April comparison below
 Target_Period = order[(order["Year"] == 2017) & (order["Month"] == 4 )].copy() 
 
 
-# Cumulative comparison: Jan-Mar totals vs Jan-Apr totals, to quantify Aprember's
-# overall impact on the year-to-date figures
+# Direct month-over-month comparison: March totals vs April totals
 Total_Sales = Period["price"].sum()
 Total_Sales_after_Apr = Target_Period["price"].sum()
 Growth_sales_cuse_Apr = (((Total_Sales_after_Apr - Total_Sales)/Total_Sales)*100)
@@ -92,10 +91,13 @@ Total_Customers_after_Apr = Target_Period["customer_unique_id"].nunique()
 # consistent with how sales/orders growth is calculated above
 Growth_Cust_cuse_Apr = (((Total_Customers_after_Apr-Total_Customers)/Total_Customers)*100)
 
+# First-ever purchase date per customer (across the full order history), used to
+# identify which of April's customers were brand-new vs returning
 New_customers = order.groupby("customer_unique_id")["order_purchase_timestamp"].min().reset_index()
 New_customers_Apr = New_customers[(New_customers["order_purchase_timestamp"].dt.year == 2017) &
 (New_customers["order_purchase_timestamp"].dt.month == 4)]
 Total_New_Customer = New_customers_Apr["customer_unique_id"].shape[0]
+# Share of April's customer base that made their first-ever purchase in April
 pre_of_new = f"{((Total_New_Customer/Total_Customers_after_Apr)*100):,.2f}"
 
 
@@ -122,7 +124,6 @@ avg_price_after_Apr = Target_Period["price"].median()
 # review_score is order-level (one score per order, repeated across that
 # order's item rows), so it requires dropping duplicate order_id rows first
 # to avoid counting the same review multiple times
-
 No_dup_period = Period.drop_duplicates("order_id").copy()
 No_dup_Target_period = Target_Period.drop_duplicates("order_id").copy()
 
@@ -130,7 +131,7 @@ avg_reivew_score = No_dup_period[No_dup_period["Month"] == 3 ]["review_score"].m
 avg_reivew_score_after_Apr = No_dup_Target_period[No_dup_Target_period["Month"] == 4 ]["review_score"].mean()
 
 
-# --- Dashboard 2: KPI summary text panel (Jan-Mar vs Jan-Apr) ---
+# --- KPI summary text panel (March vs April) ---
 f , k = plt.subplots(1,1,figsize=(15,10))
 plt.axis("off")
 
@@ -166,7 +167,7 @@ f.text(col4, y_row1, f"Total Freight Cost:\nMar: {Total_freight_cost:,.0f}  |  A
 f.text(col4, y_row2, f"Avg Freight Cost:\nMar: {Avg_freight_cost:,.1f}  |  Apr: {Avg_freight_cost_after_Apr:,.1f}", fontsize=10, fontweight="bold", ha="center")
 f.text(col4, y_row3, f"Avg Delivery Days:\nMar: {avg_delivery_days:.1f}d  |  Apr: {avg_delivery_days_after_Apr:.1f}d", fontsize=10, fontweight="bold", ha="center")
 
-# --- Dashboard 3: Overall MoM growth rate and monthly sales trend (2016-2017) ---
+# --- Overall MoM growth rate and monthly sales trend (2016-2017), for broader context ---
 fig , axse = plt.subplots(1,2,figsize=(15,10))
 
 
