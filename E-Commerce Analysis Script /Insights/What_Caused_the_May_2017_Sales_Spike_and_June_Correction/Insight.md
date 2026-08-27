@@ -51,3 +51,18 @@ Since internal metrics (price, delivery speed, and payment methods) do not revea
     4. **Concentrated category expansion followed by a symmetrical contraction**
 
   makes a temporary, category-targeted acquisition campaign the most plausible explanation for the observed pattern.
+
+`Summary`
+
+May 2017 saw a sharp sales expansion to **$503,159 (+36.6% vs. March baseline)**, driven by a **+39.1%** increase in order volume. Performance contracted in June by **-14.6% ($429,917)**, though it remained **+16.7%** above March baseline levels.
+* **Proven Key Findings:**
+  1. Growth was **99.22% acquisition-driven** (new customers), while repeat purchase frequency remained completely flat at **1.15**.
+  2. Growth was **not pricing-driven**; demand surged despite higher median prices in May ($74.9) and contracted in June despite price drops ($69.9).
+  3. Expansion and contraction were **category-symmetrical**, led by `Computers Accessories`, `Cool Stuff`, and `Telephony`.
+* The pattern strongly points to a **temporary, category-targeted marketing acquisition campaign** executed during May that expired in June, resulting in a expected post-campaign volume correction.
+
+
+`What I Learned`
+
+* **Internal vs. External Dynamics:** Not every performance trend can be fully explained by internal business metrics alone. A thorough data analysis must account for both **internal drivers** (such as pricing, operations, and product selection) and **external factors** (such as marketing campaigns and seasonality). Recognizing data limitations and evaluating external variables is essential for accurate root-cause analysis.
+* **Pricing Is Not the Sole Driver of Demand:** Price is not always the primary factor governing customer behavior or driving purchasing decisions. Customers respond to diverse catalysts—including marketing exposure, brand perception, and targeted value propositions. Relying solely on price adjustments to stimulate demand without considering broader context can lead to incomplete conclusions.
